@@ -46,3 +46,11 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 You can then execute your native executable with: `./target/globex-mobile-gateway-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
+
+
+## Docker
+docker build -f src/main/docker/Dockerfile.jvm -t  quay.io/cloud-architecture-workshop/globex-mobile-gateway:<checkintag> .
+
+## params needed
+export KEYCLOAK_AUTH_SERVER_URL=
+export GLOBEX_STORE_API_URL=
