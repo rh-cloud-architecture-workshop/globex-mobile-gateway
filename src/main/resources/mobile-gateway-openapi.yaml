@@ -1,0 +1,197 @@
+openapi: 3.0.2
+info:
+    title: Globex Mobile API Gateway - V2.0
+    version: 1.0.0
+    description: Globex APIs made accessible to global partners to view Globex' catalog and products
+paths:
+    '/mobile/services/product/category/{categories}':
+        summary: Get products by category
+        description: Return the list of products that belong to the given categories.
+        get:
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/product'
+                            examples:
+                                clothing-products:
+                                    value:
+                                        -
+                                            itemId: '329299'
+                                            name: Quarkus T-shirt
+                                            category: clothing
+                                            price: 10
+                                            quantity: 736
+                                            desc: >-
+                                                Our T-Shirt is an everyday essential! This short-sleeve
+                                                heavyweight T-shirt is comfortable, economical and made to
+                                                last. 
+                                        -
+                                            itemId: '329199'
+                                            name: Pronounced Kubernetes
+                                            category: clothing
+                                            price: 9
+                                            quantity: 512
+                                            desc: >-
+                                                Our Men's Value T-Shirt is an everyday essential! This
+                                                short-sleeve heavyweight T-shirt is comfortable, economical
+                                                and made to last. Designed with a traditional fit that runs
+                                                true to size, he’ll show off his personality, humor and
+                                                interests with an easy, relaxed style.
+                                        -
+                                            itemId: '165613'
+                                            name: Knit socks
+                                            category: clothing
+                                            price: 4.15
+                                            quantity: 256
+                                            desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+                    description: Product list found.
+            summary: Get products by category
+        parameters:
+            -
+                name: categories
+                description: Category name
+                schema:
+                    type: string
+                in: path
+                required: true
+    /mobile/services/category/list:
+        summary: Get list of categories
+        description: Return the list of categories
+        get:
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/category'
+                            examples:
+                                category-list:
+                                    value:
+                                        -
+                                            id: 1
+                                            category: clothing
+                                        -
+                                            id: 2
+                                            category: utensils
+                                        -
+                                            id: 3
+                                            category: bags
+                    description: Get list of categories
+            summary: Get list of categories
+            description: Get list of categories
+components:
+    schemas:
+        category:
+            title: Root Type for category
+            description: Definition of one Category
+            type: object
+            properties:
+                id:
+                    description: Category ID
+                    type: integer
+                category:
+                    description: Category name
+                    type: string
+            example:
+                id: 1
+                category: clothing
+        product:
+            description: Definition of one product in the Globex Catalogue
+            type: object
+            properties:
+                itemId:
+                    description: Product ID
+                    type: string
+                    example: '329299'
+                name:
+                    description: Product Name
+                    type: string
+                    example: Quarkus T-shirt
+                category:
+                    description: Product category
+                    type: string
+                    example: clothing
+                price:
+                    description: Price
+                    type: integer
+                    example: '10'
+                quantity:
+                    description: Quantity available
+                    type: integer
+                    example: '736'
+                desc:
+                    description: Description
+                    type: string
+                    example: >-
+                        Our T-Shirt is an everyday essential! This short-sleeve heavyweight T-shirt is
+                        comfortable, economical and made to last. Designed with a traditional fit that runs
+                        true to size, he’ll show off his personality, humor and interests with an easy,
+                        relaxed style.
+            example:
+                itemId: '329299'
+                name: Quarkus T-shirt
+                category: clothing
+                price: 10
+                quantity: 736
+                desc: >-
+                    Our T-Shirt is an everyday essential! This short-sleeve heavyweight T-shirt is
+                    comfortable, economical and made to last. Designed with a traditional fit that runs true
+                    to size, he’ll show off his personality, humor and interests with an easy, relaxed style.
+    responses:
+        product-list:
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/components/schemas/product'
+                    examples:
+                        clothing:
+                            value:
+                                -
+                                    itemId: '329299'
+                                    name: Quarkus T-shirt
+                                    category: clothing
+                                    price: 10
+                                    quantity: 736
+                                    desc: >-
+                                        Our T-Shirt is an everyday essential! This short-sleeve heavyweight
+                                        T-shirt is comfortable, economical and made to last. Designed with a
+                                        traditional fit that runs true to size, he’ll show off his
+                                        personality, humor and interests with an easy, relaxed style.
+                                -
+                                    itemId: '329199'
+                                    name: Pronounced Kubernetes
+                                    category: clothing
+                                    price: 9
+                                    quantity: 512
+                                    desc: >-
+                                        Our Men's Value T-Shirt is an everyday essential! This short-sleeve
+                                        heavyweight T-shirt is comfortable, economical and made to last.
+                                        Designed with a traditional fit that runs true to size, he’ll show off
+                                        his personality, humor and interests with an easy, relaxed style.
+            description: List of products
+        category-list:
+            content:
+                application/json:
+                    schema:
+                        description: Category List
+                        type: array
+                        items:
+                            $ref: '#/components/schemas/category'
+                    examples:
+                        basic:
+                            value:
+                                -
+                                    id: 11
+                                    category: some text
+                                -
+                                    id: 52
+                                    category: some text
+            description: List of categries

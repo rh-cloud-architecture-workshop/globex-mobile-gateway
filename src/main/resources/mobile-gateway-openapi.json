@@ -1,146 +1,57 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "Globex Mobile API Gateway",
+        "title": "Globex Mobile API Gateway - V2.0",
         "version": "1.0.0",
         "description": "Globex APIs made accessible to global partners to view Globex' catalog and products"
     },
-    "servers": [
-        {
-            "url": "https://prodapi-user1-3scale-apicast-production.apps.jaya.local.sandbox1316.opentlc.com:443"
-        }
-    ],
     "paths": {
-        "/mobile/services/category/list": {
-            "summary": "Get list of categories",
-            "description": "Return the list of categories",
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "Get list of categories"
-                    }
-                },
-                "description": "Get list of categories"
-            }
-        },
-        "/mobile/services/product": {
-            "summary": "Get a paginated list of products",
-            "description": "Get a paginated list of products",
-            "get": {
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {}
-                        },
-                        "description": "Product list found."
-                    }
-                },
-                "description": "Get a paginated list of products"
-            },
-            "parameters": [
-                {
-                    "name": "page",
-                    "description": "The page number. First page is 1.",
-                    "schema": {
-                        "type": "integer"
-                    },
-                    "in": "query"
-                },
-                {
-                    "name": "limit",
-                    "description": "The maximum number of products returned.",
-                    "schema": {
-                        "type": "integer"
-                    },
-                    "in": "query"
-                },
-                {
-                    "name": "inventory",
-                    "description": "Whether to include inventory information.",
-                    "schema": {
-                        "type": "boolean"
-                    },
-                    "in": "query"
-                }
-            ]
-        },
-        "/mobile/services/product/{id}": {
-            "summary": "Get product by id",
-            "description": "Get product by id",
-            "get": {
-                "parameters": [
-                    {
-                        "name": "inventory",
-                        "description": "If true, include inventory information",
-                        "schema": {
-                            "type": "boolean"
-                        },
-                        "in": "query",
-                        "required": false
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Product found"
-                    },
-                    "404": {
-                        "description": "Product not found"
-                    }
-                },
-                "summary": "Get product by id",
-                "description": "Get product by id"
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "schema": {
-                        "type": "string"
-                    },
-                    "in": "path",
-                    "required": true
-                }
-            ]
-        },
-        "/mobile/services/product/list/{ids}": {
-            "summary": "Get product list by ids",
-            "description": "Get product list by ids",
-            "get": {
-                "parameters": [
-                    {
-                        "name": "inventory",
-                        "description": "Whether to include inventory information",
-                        "schema": {
-                            "type": "boolean"
-                        },
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "product list found"
-                    }
-                },
-                "summary": "Get product list",
-                "description": "Get product list"
-            },
-            "parameters": [
-                {
-                    "name": "ids",
-                    "description": "comma separated list of product ids",
-                    "schema": {
-                        "type": "string"
-                    },
-                    "in": "path",
-                    "required": true
-                }
-            ]
-        },
         "/mobile/services/product/category/{categories}": {
-            "summary": "Get products by categories",
+            "summary": "Get products by category",
             "description": "Return the list of products that belong to the given categories.",
             "get": {
                 "responses": {
                     "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/product"
+                                    }
+                                },
+                                "examples": {
+                                    "clothing-products": {
+                                        "value": [
+                                            {
+                                                "itemId": "329299",
+                                                "name": "Quarkus T-shirt",
+                                                "category": "clothing",
+                                                "price": 10,
+                                                "quantity": 736,
+                                                "desc": "Our T-Shirt is an everyday essential! This short-sleeve heavyweight T-shirt is comfortable, economical and made to last. "
+                                            },
+                                            {
+                                                "itemId": "329199",
+                                                "name": "Pronounced Kubernetes",
+                                                "category": "clothing",
+                                                "price": 9,
+                                                "quantity": 512,
+                                                "desc": "Our Men's Value T-Shirt is an everyday essential! This short-sleeve heavyweight T-shirt is comfortable, economical and made to last. Designed with a traditional fit that runs true to size, he’ll show off his personality, humor and interests with an easy, relaxed style."
+                                            },
+                                            {
+                                                "itemId": "165613",
+                                                "name": "Knit socks",
+                                                "category": "clothing",
+                                                "price": 4.15,
+                                                "quantity": 256,
+                                                "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        },
                         "description": "Product list found."
                     }
                 },
@@ -149,76 +60,187 @@
             "parameters": [
                 {
                     "name": "categories",
-                    "description": "Comma separated list of category names.",
+                    "description": "Category name",
                     "schema": {
                         "type": "string"
                     },
                     "in": "path",
                     "required": true
-                },
-                {
-                    "name": "inventory",
-                    "description": "Whether to include inventory information.",
-                    "schema": {
-                        "type": "boolean"
-                    },
-                    "in": "query"
                 }
             ]
         },
-        "/mobile/services/product/tag/{tags}": {
-            "summary": "Get products by tags",
-            "description": "Return the list of products that are tagged with he given tags.",
+        "/mobile/services/category/list": {
+            "summary": "Get list of categories",
+            "description": "Return the list of categories",
             "get": {
                 "responses": {
                     "200": {
-                        "description": "Product list found."
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/category"
+                                    }
+                                },
+                                "examples": {
+                                    "category-list": {
+                                        "value": [
+                                            {
+                                                "id": 1,
+                                                "category": "clothing"
+                                            },
+                                            {
+                                                "id": 2,
+                                                "category": "utensils"
+                                            },
+                                            {
+                                                "id": 3,
+                                                "category": "bags"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Get list of categories"
                     }
                 },
-                "summary": "Get products by tag"
-            },
-            "parameters": [
-                {
-                    "name": "inventory",
-                    "description": "Whether to include inventory information.",
-                    "schema": {
-                        "type": "boolean"
-                    },
-                    "in": "query"
-                },
-                {
-                    "name": "tags",
-                    "description": "Comma separated list of tags",
-                    "schema": {
-                        "type": "string"
-                    },
-                    "in": "path",
-                    "required": true
-                }
-            ]
+                "summary": "Get list of categories",
+                "description": "Get list of categories"
+            }
         }
     },
     "components": {
         "schemas": {
-            "paginated-product-list": {
-                "title": "Root Type for paginated-product-list",
-                "description": "",
-                "type": "object"
+            "category": {
+                "title": "Root Type for category",
+                "description": "Definition of one Category",
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Category ID",
+                        "type": "integer"
+                    },
+                    "category": {
+                        "description": "Category name",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": 1,
+                    "category": "clothing"
+                }
+            },
+            "product": {
+                "description": "Definition of one product in the Globex Catalogue",
+                "type": "object",
+                "properties": {
+                    "itemId": {
+                        "description": "Product ID",
+                        "type": "string",
+                        "example": "329299"
+                    },
+                    "name": {
+                        "description": "Product Name",
+                        "type": "string",
+                        "example": "Quarkus T-shirt"
+                    },
+                    "category": {
+                        "description": "Product category",
+                        "type": "string",
+                        "example": "clothing"
+                    },
+                    "price": {
+                        "description": "Price",
+                        "type": "integer",
+                        "example": "10"
+                    },
+                    "quantity": {
+                        "description": "Quantity available",
+                        "type": "integer",
+                        "example": "736"
+                    },
+                    "desc": {
+                        "description": "Description",
+                        "type": "string",
+                        "example": "Our T-Shirt is an everyday essential! This short-sleeve heavyweight T-shirt is comfortable, economical and made to last. Designed with a traditional fit that runs true to size, he’ll show off his personality, humor and interests with an easy, relaxed style."
+                    }
+                },
+                "example": {
+                    "itemId": "329299",
+                    "name": "Quarkus T-shirt",
+                    "category": "clothing",
+                    "price": 10,
+                    "quantity": 736,
+                    "desc": "Our T-Shirt is an everyday essential! This short-sleeve heavyweight T-shirt is comfortable, economical and made to last. Designed with a traditional fit that runs true to size, he’ll show off his personality, humor and interests with an easy, relaxed style."
+                }
             }
         },
-        "securitySchemes": {
-            "oidc-connect": {
-                "openIdConnectUrl": "https://keycloak-redhatssonew.apps.jaya.local.sandbox1316.opentlc.com/auth/realms/globex-user1/protocol/openid-connect/token",
-                "type": "openIdConnect",
-                "description": "OpenID Connect is used to authenticate API access. OpenID configuration can be retrieved at https://<<realm-url>>/.well-known/openid-configuration"
+        "responses": {
+            "product-list": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/product"
+                            }
+                        },
+                        "examples": {
+                            "clothing": {
+                                "value": [
+                                    {
+                                        "itemId": "329299",
+                                        "name": "Quarkus T-shirt",
+                                        "category": "clothing",
+                                        "price": 10,
+                                        "quantity": 736,
+                                        "desc": "Our T-Shirt is an everyday essential! This short-sleeve heavyweight T-shirt is comfortable, economical and made to last. Designed with a traditional fit that runs true to size, he’ll show off his personality, humor and interests with an easy, relaxed style."
+                                    },
+                                    {
+                                        "itemId": "329199",
+                                        "name": "Pronounced Kubernetes",
+                                        "category": "clothing",
+                                        "price": 9,
+                                        "quantity": 512,
+                                        "desc": "Our Men's Value T-Shirt is an everyday essential! This short-sleeve heavyweight T-shirt is comfortable, economical and made to last. Designed with a traditional fit that runs true to size, he’ll show off his personality, humor and interests with an easy, relaxed style."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "description": "List of products"
+            },
+            "category-list": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "description": "Category List",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/category"
+                            }
+                        },
+                        "examples": {
+                            "basic": {
+                                "value": [
+                                    {
+                                        "id": 11,
+                                        "category": "some text"
+                                    },
+                                    {
+                                        "id": 52,
+                                        "category": "some text"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "description": "List of categries"
             }
         }
-    },
-    "security": [
-        {
-            "oidc-connect": [
-                "admin"
-            ]
-        }
-    ]
+    }
 }
