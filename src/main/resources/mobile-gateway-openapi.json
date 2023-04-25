@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "Globex Mobile API Gateway - V2.0",
+        "title": "Globex Mobile API Gateway",
         "version": "1.0.0",
         "description": "Globex APIs made accessible to global partners to view Globex' catalog and products"
     },
